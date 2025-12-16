@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,7 +15,7 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
     private DcMotor flywheel;
     private DcMotor coreHex;
     private DcMotor leftDrive;
-    private CRServo servo;
+    private Servo servo;
     private DcMotor rightDrive;
 
     private static final int bankVelocity = 1300;
@@ -33,7 +34,9 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
         flywheel = hardwareMap.get(DcMotor.class, "flywheel");
         coreHex = hardwareMap.get(DcMotor.class, "coreHex");
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
-        servo = hardwareMap.get(CRServo.class, "servo");
+        servo = hardwareMap.get(Servo.class, "servo");
+        servo.setDirection(Servo.Direction.REVERSE);
+        servo.scaleRange(0, 1);
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
 
         // Establishing the direction and mode for the motors
@@ -42,7 +45,7 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
         coreHex.setDirection(DcMotor.Direction.REVERSE);
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         //Ensures the servo is active and ready
-        servo.setPower(0);
+        servo.setPosition(0.5);
 
         //On initialization the Driver Station will prompt for which OpMode should be run - Auto Blue, Auto Red, or TeleOp
         /*
@@ -125,15 +128,15 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
     private void manualCoreHexAndServoControl() {
         // Manual control for the Core Hex intake
         if (gamepad1.cross) {
-            coreHex.setPower(0.5);
+            coreHex.setPower(0.75);
         } else if (gamepad1.triangle) {
-            coreHex.setPower(-0.5);
+            coreHex.setPower(-0.75);
         }
         // Manual control for the hopper's servo
         if (gamepad1.dpad_left) {
-            servo.setPower(1);
+            servo.setPower(0.5);
         } else if (gamepad1.dpad_right) {
-            servo.setPower(-1);
+            servo.setPower(-0.5);
         }
     }
 
@@ -172,9 +175,9 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
      */
     private void BANK_SHOT_AUTO() {
         ((DcMotorEx) flywheel).setVelocity(bankVelocity);
-        servo.setPower(-1);
+        servo.setPower(-0.5);
         if (((DcMotorEx) flywheel).getVelocity() >= bankVelocity - 100) {
-            coreHex.setPower(1);
+            coreHex.setPower(0.5);
         } else {
             coreHex.setPower(0);
         }
@@ -189,7 +192,7 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
         ((DcMotorEx) flywheel).setVelocity(farVelocity);
         servo.setPower(-1);
         if (((DcMotorEx) flywheel).getVelocity() >= farVelocity - 100) {
-            coreHex.setPower(1);
+            coreHex.setPower(0.5);
         } else {
             coreHex.setPower(0);
         }

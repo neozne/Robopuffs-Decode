@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,7 +16,7 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
     private DcMotor flywheel;
     private DcMotor coreHex;
     private DcMotor leftDrive;
-    private Servo servo;
+    private CRServo servo;
     private DcMotor rightDrive;
 
     private static final int bankVelocity = 1300;
@@ -34,9 +35,8 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
         flywheel = hardwareMap.get(DcMotor.class, "flywheel");
         coreHex = hardwareMap.get(DcMotor.class, "coreHex");
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
-        servo = hardwareMap.get(Servo.class, "servo");
-        servo.setDirection(Servo.Direction.REVERSE);
-        servo.scaleRange(0, 1);
+        servo = hardwareMap.get(CRServo.class, "servo");
+        servo.setPower(0);
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
 
         // Establishing the direction and mode for the motors
@@ -45,7 +45,6 @@ public class REVStarterBotTeleOpAutoJava extends LinearOpMode {
         coreHex.setDirection(DcMotor.Direction.REVERSE);
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         //Ensures the servo is active and ready
-        servo.setPosition(0.5);
 
         //On initialization the Driver Station will prompt for which OpMode should be run - Auto Blue, Auto Red, or TeleOp
         /*
